@@ -45,6 +45,7 @@ const ProductGetAll = async (req, res) => {
   try {
     //====> all []
     await Product.find({})
+      .select({name: 1, price: 1})
       .then((result) => {
         if (!result)
           return res.status(404).json({ message: "Product not found" });
@@ -103,8 +104,8 @@ const ProductPut = async (req, res) => {
 const ProductDelete = async (req, res) => {
   try {
     const { id } = req.params;
-    //const product = await Product.findByIdAndDelete(id);
-    await Product.findOneAndDelete({ _id: id }).then((result)=>{
+    await Product.findByIdAndDelete(id)
+    .then((result)=>{
         if (!result) return res.status(404).json({ message: "Product not Found for Delete" });
         res.status(200).json({ message: "Product Delete Success" });
     }).catch((err)=>{
