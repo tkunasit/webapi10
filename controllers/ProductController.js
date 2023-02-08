@@ -44,8 +44,10 @@ const ProductPost = async (req, res) => {
 const ProductGetAll = async (req, res) => {
   try {
     //====> all []
-    await Product.find({})
-      .select({name: 1, price: 1})
+    await Product.find({},'name price -_id')
+      .skip(3)
+      .limit(3)
+      .sort({price: -1})
       .then((result) => {
         if (!result)
           return res.status(404).json({ message: "Product not found" });
